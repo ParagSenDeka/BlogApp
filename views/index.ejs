@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog</title>
   <link rel="stylesheet" href="/static/style.css">
-  <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 </head>
 
 <body>
@@ -15,19 +14,19 @@
     <a id="newPostBtn" href="/new">New Post</a>
     <ul id="postsList">
       <% if(locals.data){ %><li>
-      <% data.forEach((element,index) => {%>
+      <% data.forEach((element) => {%>
         <h2>
           <%=element.title%>
           </h2>
           <small>
-            <%=element.time%> 
+            <%=element.crdate%> 
             </small>
             <p>
               <%=element.description%>
               </p>
               <small>By <%= element.author%> </small>
-            <a class="edit" href="/edit/<%= index %>">Edit</a>
-            <a class="delete" href="/delete/<%= index %>">Delete</a>
+            <a class="edit" href="/edit/<%= element.id %>">Edit</a>
+            <a class="delete" href="/delete/<%= element.id %>">Delete</a>
             <%});%>
             <%} %>
             </ul>
