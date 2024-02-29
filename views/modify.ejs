@@ -49,10 +49,10 @@
 </head>
 <body>
 
-  <% if(locals.id){%>
+  <% if(locals.index){%>
     <div class="container">
       <h2>Edit Form</h2>
-      <form action="/submit/<%= id %>" method="post">
+      <form action="/submit/<%= index %>" method="post">
         <div class="form-group">
           <label for="title">Title:</label>
           <input type="text" id="title" name="title" required>
