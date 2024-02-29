@@ -26,8 +26,8 @@
               <%=element.description%>
               </p>
               <small>By <%= element.author%> </small>
-            <a name="edit<%= index %>" class="edit" href="/edit">Edit</a>
-            <a name="delete<%= index %>" class="delete" href="/delete">Delete</a>
+            <a class="edit" href="/edit/<%= index %>">Edit</a>
+            <a class="delete" href="/delete/<%= index %>">Delete</a>
             <%});%>
             <%} %>
             </ul>

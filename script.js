@@ -21,15 +21,28 @@ const data = [
     }
 ]
 
+let length=2;
+let i=0;
+
 app.get("/", (req, res) => {
     res.render("index.ejs", { data: data });
 });
 
-app.get("/edit",(req,res)=>{
-    const index=req.body;
+app.get("/edit/:index",(req,res)=>{
+    const index=req.params.index;
     console.log(index);
     res.render("modify.ejs");
 });
+
+app.get("/new",(req,res)=>{
+
+});
+
+app.post("/submit",(req,res)=>{
+    // Here will be some code
+    res.render("index.ejs",{data:data});
+});
+
 
 app.listen(port, () => {
     console.log("Running at port " + port);
