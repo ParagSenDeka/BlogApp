@@ -14,22 +14,22 @@
     <h1>My Blog</h1>
     <a id="newPostBtn" href="/new">New Post</a>
     <ul id="postsList">
-      <% if(locals.data){ <li>
-      <% data.forEach(element,index => {
+      <% if(locals.data){ %><li>
+      <% data.forEach((element,index) => {%>
         <h2>
           <%=element.title%>
           </h2>
           <small>
-            <%=element.time%>
+            <%=element.time%> 
             </small>
             <p>
               <%=element.description%>
               </p>
               <small>By <%= element.author%> </small>
-            <a class="edit" href="/edit/:id"></a>
-            <a class="delete" href="delete/:id"></a>
-            });
-            } %>
+            <a name="edit<%= index %>" class="edit" href="/edit">Edit</a>
+            <a name="delete<%= index %>" class="delete" href="/delete">Delete</a>
+            <%});%>
+            <%} %>
             </ul>
   </div>
 
