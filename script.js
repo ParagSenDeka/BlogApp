@@ -3,11 +3,11 @@ import express from "express";
 import pg from "pg";
 const app = express();
 const db = new pg.Client({
-    user: "postgres",
+    user: "postgresExample",
     host: "localhost",
-    database: "world",
-    password: "781121",
-    port: 5432,
+    database: "example",
+    password: "example",
+    port: 5000,
 });
 
 db.connect();
