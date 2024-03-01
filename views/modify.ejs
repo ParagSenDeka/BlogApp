@@ -64,7 +64,26 @@
             <input type="submit" value="Submit">
             </form>
             </div>
-          <% } %>
+          <% } else{ %>
+        <div class="container">
+          <h2>Edit Form</h2>
+          <form action="/submitNew/<%= maxLength %>" method="post">
+            <div class="form-group">
+              <label for="title">Title:</label>
+              <input type="text" id="title" name="title" required>
+              </div>
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="title">Title:</label>
+                  <input type="text" id="author" name="author" required>
+                  </div>
+                <input type="submit" value="Submit">
+                </form>
+                </div>
+      <% } %>
             
             </body>
             </html>
