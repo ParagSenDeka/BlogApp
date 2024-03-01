@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
             data = res.rows;
         }
     });
+    console.log(data);
     res.render("index.ejs", { data: data });
 });
 
@@ -44,7 +45,7 @@ app.get("/edit/:index", (req, res) => {
 
 app.post("/submit/:id", (req, res) => {
     // Submit the post here 
-    const newData = { title: req.body.title, description: req.body.description };
+    const newData = { title: req.body.title, description: req.body.description};
     const idToUpdate = req.params.id;
     const updateQuery = {
         text: 'UPDATE blogData SET title = $1, description = $2,crDate=CURRENT_DATE WHERE id = $3',
@@ -56,10 +57,8 @@ app.post("/submit/:id", (req, res) => {
         } else {
             console.log("Row updated successfully");
         }
-        db.end();
     });
-
-    res.redirect("/");
+    res.render("index.ejs",{data:data});
 });
 
 // app.post("/submitNew/:id",(req,res)=>{
