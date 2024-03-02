@@ -2,6 +2,9 @@
 import express from "express";
 import pg from "pg";
 const app = express();
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const db = new pg.Client({
     user: process.env.DB_USER,
@@ -10,8 +13,16 @@ const db = new pg.Client({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
 });
+console.log(process.env.DB_PASSWORD);
 
-db.connect();
+db.connect((err) => {
+    if (err) {
+        console.error('Error connecting to database:', err);
+    } else {
+        console.log('Connected to database');
+    }
+});
+
 const port = 3000;
 let maxLength = 0;
 
