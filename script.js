@@ -13,7 +13,6 @@ const db = new pg.Client({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
 });
-console.log(process.env.DB_PASSWORD);
 
 db.connect((err) => {
     if (err) {
