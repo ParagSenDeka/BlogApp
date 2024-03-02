@@ -79,7 +79,6 @@ app.get("/edit/:index", (req, res) => {
         }
         let tempData = result.rows;
         tempData.push(index);
-        console.log(tempData);
         res.render("modify.ejs", {data: tempData});
     });
 });
