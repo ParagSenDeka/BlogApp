@@ -26,6 +26,11 @@ let maxLength = 0;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end();
+  });
+  
+
 app.get("/", async (req, res) => {
     try {
         const result = await db.query("SELECT * FROM blogData ORDER BY id");
