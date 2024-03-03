@@ -13,6 +13,7 @@
     <h1>My Blog</h1>
     <a id="newPostBtn" href="/new">New Post</a>
     <ul id="postsList">
+      <!-- If there is data then this page will be rendered -->
       <% if(locals.data){ %><li>
       <% data.forEach((element) => {%>
         <h2>

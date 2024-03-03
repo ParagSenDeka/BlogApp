@@ -1,11 +1,11 @@
-
+// Import and configs
 import express from "express";
 import pg from "pg";
 const app = express();
 import dotenv from 'dotenv';
 dotenv.config();
 
-
+// Creating a pg client
 const db = new pg.Client({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -14,6 +14,7 @@ const db = new pg.Client({
     port: process.env.DB_PORT,
 });
 
+// Connecting the databse
 db.connect((err) => {
     if (err) {
         console.error('Error connecting to database:', err);
@@ -25,10 +26,11 @@ db.connect((err) => {
 const port = 3000;
 let maxLength = 0;
 
+// Using middlewares
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-
+// Homepage or default route
 app.get("/", (req, res) => {
     db.query("SELECT * FROM blogData ORDER BY id", (err, result) => {
         if (err) {
@@ -42,8 +44,9 @@ app.get("/", (req, res) => {
     });
 });
 
+// Delete a blog
 app.get("/delete/:id", (req, res) => {
-    let idToDelete = req.params.id; // Replace 123 with the actual ID you want to delete
+    let idToDelete = req.params.id; // 
     let deleteQuery = {
         text: 'DELETE FROM blogData WHERE id = $1',
         values: [idToDelete],
@@ -60,11 +63,12 @@ app.get("/delete/:id", (req, res) => {
     res.redirect("/");
 });
 
-
+// Post a new blog
 app.get("/new", (req, res) => {
     res.render("modify.ejs", { maxLength: maxLength });
 });
 
+// Edit a blog
 app.get("/edit/:index", (req, res) => {
     let index = parseInt(req.params.index);
     let updateQuery = {
@@ -119,6 +123,7 @@ app.post("/submitNew/:id", (req, res) => {
     res.redirect("/");
 })
 
+// Listener
 app.listen(port, () => {
     console.log("Running at port " + port);
 });

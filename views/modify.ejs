@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edit Form</title>
 <style>
+  /* Styling part */
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
@@ -48,7 +49,7 @@
 </style>
 </head>
 <body>
-
+<!-- If there is data to be edited then this part will be rendered -->
   <% if(locals.data){%>
     <div class="container">
       <h2>Edit Form</h2>
@@ -64,6 +65,7 @@
             <input type="submit" value="Submit">
             </form>
             </div>
+            <!-- If there is a new post to be submitted then this part will be rendered -->
           <% } else{ %>
         <div class="container">
           <h2>Edit Form</h2>
