@@ -14,26 +14,26 @@
     <a id="newPostBtn" href="/new">New Post</a>
     <ul id="postsList">
       <!-- If there is data then this page will be rendered -->
-      <% if(locals.data){ %><li>
-      <% data.forEach((element) => {%>
-        <h2>
-          <%=element.title%>
-          </h2>
-          <small>
-            <%=element.crdate%> 
+      <% if(locals.data){ %>
+        <li>
+          <% data.forEach((element)=> {%>
+            <h2>
+              <%=element.title%>
+            </h2>
+            <small>
+              <%=element.crdate%>
             </small>
             <p>
               <%=element.description%>
-              </p>
-              <small>By <%= element.author%> </small>
-            <% if (user && user.role === 'admin') { %>
+            </p>
+            <small>By <%= element.author%> </small>
+            <% if (user=="admin") { %>
               <a class="edit" href="/edit/<%= element.id %>">Edit</a>
               <a class="delete" href="/delete/<%= element.id %>">Delete</a>
-          <% } %>
-          
-            <%});%>
-            <%} %>
-            </ul>
+              <% } %>
+                <%});%>
+                  <%} %>
+    </ul>
   </div>
 
 </body>

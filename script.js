@@ -20,23 +20,44 @@ db.connect()
         console.error('Error connecting to database:', err);
     });
 
-const port = 5000;
+const port = 3000;
 let maxLength = 0;
+let crUser="guest";
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/favicon.ico', (req, res) => {
     res.status(204).end();
-  });
-  
+});
 
-app.get("/", async (req, res) => {
+app.get("/",(req,res)=>{
+    res.render("login.ejs");
+});
+
+app.post('/check', async(req, res) => {
+    const currentUser = {
+        username:req.body.username,
+        password:req.body.password
+    };
+    const users=await db.query("SELECT username,password FROM users ORDER BY id");
+    users.rows.forEach(user=>{
+        if(currentUser.username==user.username && currentUser.password==user.password){
+            crUser="admin";
+        }
+        else{
+            crUser="guest";
+        }
+    });
+        res.redirect('/show');
+});
+
+app.get("/show", async (req, res) => {
     try {
         const result = await db.query("SELECT * FROM blogData ORDER BY id");
         const data = result.rows;
         maxLength = data.length;
-        res.render("index.ejs", { data: data });
+        res.render("index.ejs", { data: data,user:crUser});
     } catch (err) {
         console.error("Error executing query", err.stack);
         res.status(500).send("Internal Server Error");
@@ -51,7 +72,7 @@ app.get("/delete/:id", async (req, res) => {
     } catch (err) {
         console.error(err.stack);
     }
-    res.redirect("/");
+    res.redirect("/show");
 });
 
 app.get("/new", (req, res) => {
@@ -80,7 +101,7 @@ app.post("/submit/:id", async (req, res) => {
     } catch (err) {
         console.error("Error executing query", err.stack);
     }
-    res.redirect("/");
+    res.redirect("/show");
 });
 
 app.post("/submitNew/:id", async (req, res) => {
@@ -92,7 +113,7 @@ app.post("/submitNew/:id", async (req, res) => {
     } catch (err) {
         console.error("Error executing query", err.stack);
     }
-    res.redirect("/");
+    res.redirect("/show");
 });
 
 app.listen(port, () => {
