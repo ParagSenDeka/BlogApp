@@ -20,7 +20,7 @@ db.connect()
         console.error('Error connecting to database:', err);
     });
 
-const port = 3000;
+const port = 5000;
 let maxLength = 0;
 
 app.use(express.static("public"));

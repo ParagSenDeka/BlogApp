@@ -26,8 +26,11 @@
               <%=element.description%>
               </p>
               <small>By <%= element.author%> </small>
-            <a class="edit" href="/edit/<%= element.id %>">Edit</a>
-            <a class="delete" href="/delete/<%= element.id %>">Delete</a>
+            <% if (user && user.role === 'admin') { %>
+              <a class="edit" href="/edit/<%= element.id %>">Edit</a>
+              <a class="delete" href="/delete/<%= element.id %>">Delete</a>
+          <% } %>
+          
             <%});%>
             <%} %>
             </ul>
