@@ -1,6 +1,9 @@
 import express from "express";
 import pg from "pg";
 const app = express();
+
+app.set("view engine","ejs");
+
 import dotenv from 'dotenv';
 dotenv.config();
 
