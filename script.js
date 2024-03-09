@@ -39,6 +39,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/favicon.ico', (req, res) => {
     res.status(204).end();
 });
+app.get('/favicon.png', (req, res) => {
+    res.status(204).end();
+});
 
 app.get("/",(req,res)=>{
     res.render("login.ejs");
