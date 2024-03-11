@@ -2,9 +2,8 @@ import express from "express";
 import pg from "pg";
 const app = express();
 
-import path from 'path';
+import path,{dirname} from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +32,7 @@ const port = 3000;
 let maxLength = 0;
 let crUser="guest";
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname,"public")));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/favicon.ico', (req, res) => {
