@@ -43,7 +43,7 @@ app.get('/favicon.png', (req, res) => {
 });
 
 app.get("/",(req,res)=>{
-    res.render("login");
+    res.render("login.ejs");
 });
 
 app.post('/check', async(req, res) => {
@@ -68,7 +68,7 @@ app.get("/show", async (req, res) => {
         const result = await db.query("SELECT * FROM blogData ORDER BY id");
         const data = result.rows;
         maxLength = data.length;
-        res.render("index", { data: data,user:crUser});
+        res.render("index.ejs", { data: data,user:crUser});
     } catch (err) {
         console.error("Error executing query", err.stack);
         res.status(500).send("Internal Server Error");
@@ -87,7 +87,7 @@ app.get("/delete/:id", async (req, res) => {
 });
 
 app.get("/new", (req, res) => {
-    res.render("modify", { maxLength: maxLength });
+    res.render("modify.ejs", { maxLength: maxLength });
 });
 
 app.get("/edit/:index", async (req, res) => {
@@ -96,7 +96,7 @@ app.get("/edit/:index", async (req, res) => {
         const result = await db.query('SELECT title, description FROM blogData WHERE id=$1', [index]);
         const tempData = result.rows;
         tempData.push(index);
-        res.render("modify", { data: tempData });
+        res.render("modify.ejs", { data: tempData });
     } catch (err) {
         console.error("Error executing query", err.stack);
         res.status(500).send("Internal Server Error");
