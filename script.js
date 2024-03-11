@@ -7,7 +7,7 @@ const app = express();
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 
 import dotenv from 'dotenv';
 dotenv.config();
