@@ -1,6 +1,15 @@
 import express from "express";
 import pg from "pg";
 const app = express();
+import path from 'path';
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+
+// const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -9,7 +18,7 @@ const db = new pg.Client({
     host: process.env.POSTGRES_HOST,
     database: process.env.POSTGRES_DATABASE,
     password: process.env.POSTGRES_PASSWORD,
-    connectionString: process.env.POSTGRES_URL
+    connectionString: process.envPOSTGRES_URL
 });
 
 db.connect()
