@@ -37,15 +37,15 @@ const db = new pg.Client({
 db.connect();
 
 app.get("/", (req, res) => {
-  res.render("home.ejs");
+  res.render("home");
 });
 
 app.get("/login", (req, res) => {
-  res.render("login.ejs");
+  res.render("login");
 });
 
 app.get("/register", (req, res) => {
-  res.render("register.ejs");
+  res.render("register");
 });
 
 app.get("/logout", (req, res) => {
@@ -65,7 +65,7 @@ app.get("/show", async (req, res) => {
       const data = result.rows;
       maxLength = data.length;
       const user = true;
-      res.render("secrets.ejs", { data: data, user: user });
+      res.render("secrets", { data: data, user: user });
     }
     else {
       res.redirect("/");
@@ -162,7 +162,7 @@ app.get("/delete/:id", async (req, res) => {
 });
 
 app.get("/new", (req, res) => {
-  res.render("modify.ejs", { maxLength: maxLength });
+  res.render("modify", { maxLength: maxLength });
 });
 
 app.get("/edit/:index", async (req, res) => {
@@ -171,7 +171,7 @@ app.get("/edit/:index", async (req, res) => {
       const result = await db.query('SELECT title, description FROM blogData WHERE id=$1', [index]);
       const tempData = result.rows;
       tempData.push(index);
-      res.render("modify.ejs", { data: tempData });
+      res.render("modify", { data: tempData });
   } catch (err) {
       console.error("Error executing query", err.stack);
       res.status(500).send("Internal Server Error");
