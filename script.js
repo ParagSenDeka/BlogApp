@@ -19,8 +19,8 @@ const saltRounds = 10;
 let maxLength=0;
 env.config();
 
-const redisClient = redist.createClient();
 const RedisStore = connectRedis(session);
+const redisClient = redist.createClient();
 app.set("views",path.join(__dirname,"views"));
 
 app.set("view engine","ejs");
