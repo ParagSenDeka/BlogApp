@@ -8,7 +8,7 @@ import session from "express-session";
 import env from "dotenv";
 import { fileURLToPath } from 'url';
 import path,{ dirname } from 'path';
-import redist from "redis";
+import redis from "redis";
 import connectRedis from "connect-redis";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +20,7 @@ let maxLength=0;
 env.config();
 
 const RedisStore = connectRedis(session);
-const redisClient = new redist.createClient();
+const redisClient = redis.createClient();
 app.set("views",path.join(__dirname,"views"));
 
 app.set("view engine","ejs");
