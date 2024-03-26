@@ -8,6 +8,7 @@ import session from "express-session";
 import env from "dotenv";
 import { fileURLToPath } from 'url';
 import path,{ dirname } from 'path';
+import connectRedis from "connect-redis";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,9 +18,14 @@ const saltRounds = 10;
 let maxLength=0;
 env.config();
 
+const RedisStore = connectRedis(session);
+const redisClient = redis.createClient();
+app.set("views",path.join(__dirname,"views"));
+
 app.set("view engine","ejs");
 app.use(
   session({
+    store:new RedisStore({client:redisClient}),
     secret: "TOPSECRETWORD",
     resave: false,
     saveUninitialized: true,
