@@ -13,6 +13,7 @@ const saltRounds = 10;
 let maxLength=0;
 env.config();
 
+app.set("view-engine","ejs");
 app.use(
   session({
     secret: "TOPSECRETWORD",
@@ -21,10 +22,10 @@ app.use(
   })
 );
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
+app.use(express.static(__dirname+"public"));
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 const db = new pg.Client({
   user: process.env.POSTGRES_USER,
