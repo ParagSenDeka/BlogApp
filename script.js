@@ -17,7 +17,7 @@ const saltRounds = 10;
 let maxLength=0;
 env.config();
 
-app.set("view-engine","ejs");
+app.set("view engine","ejs");
 app.use(
   session({
     secret: "TOPSECRETWORD",
