@@ -9,6 +9,7 @@ import env from "dotenv";
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import GoogleStrategy from "passport-google-oauth2";
+import RedisStore from "connect-redis";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,13 +22,13 @@ env.config();
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.use(
-  session({
-    secret: "TOPSECRETWORD",
+
+app.use(session({
+    store: new RedisStore({ url: 'redis://localhost:6379' }),
+    secret: 'your_secret_here',
     resave: false,
-    saveUninitialized: true,
-  })
-);
+    saveUninitialized: false
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
