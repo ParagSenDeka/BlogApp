@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
 import passport from "passport";
@@ -13,10 +12,13 @@ import GoogleStrategy from "passport-google-oauth2";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 const app = express();
 const port = 3000;
+
 const saltRounds = 10;
 let maxLength = 0;
+
 env.config();
 
 app.set("views", path.join(__dirname, "views"));
@@ -29,7 +31,7 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -40,7 +42,7 @@ const db = new pg.Client({
   host: process.env.POSTGRES_HOST,
   database: process.env.POSTGRES_DATABASE,
   password: process.env.POSTGRES_PASSWORD,
-  connectionString: process.env.POSTGRES_URL,
+  // connectionString: process.env.POSTGRES_URL,
 });
 db.connect();
 
@@ -141,12 +143,12 @@ app.get("/new", (req, res) => {
   res.render("modify.ejs", { maxLength: maxLength });
 });
 
-app.get("/auth/google",passport.authenticate("google", {
+app.get("/auth/google", passport.authenticate("google", {
   scope: ["profile", "email"],
 })
 );
 
-app.get("/auth/google/secrets",passport.authenticate("google", {
+app.get("/auth/google/secrets", passport.authenticate("google", {
   successRedirect: "/show",
   failureRedirect: "/login",
 })
@@ -200,15 +202,12 @@ passport.use("local",
         const storedHashedPassword = user.password;
         bcrypt.compare(password, storedHashedPassword, (err, valid) => {
           if (err) {
-            //Error with password check
             console.error("Error comparing passwords:", err);
             return cb(err);
           } else {
             if (valid) {
-              //Passed password check
               return cb(null, user);
             } else {
-              //Did not pass password check
               return cb(null, false);
             }
           }
@@ -228,18 +227,18 @@ passport.use("google", new GoogleStrategy({
   callbackURL: "/auth/google/secrets",
   userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 }, async (accessToken, refreshToken, profile, cb) => {
-  try{
+  try {
     console.log(profile);
-    const result=await db.query("SELECT * FROM users WHERE email=$1",[profile.email]);
-    if(result.rows.length===0){
-      const newUser=await db.query("INSERT INTO users(email,password) VALUES($1,$2)",[profile.email,"google"]);
-      return cb(null,newUser.rows[0]);
+    const result = await db.query("SELECT * FROM users WHERE email=$1", [profile.email]);
+    if (result.rows.length === 0) {
+      const newUser = await db.query("INSERT INTO users(email,password,user_id) VALUES($1,$2,$3)", [profile.email, "google",profile.id]);
+      return cb(null, newUser.rows[0]);
     }
-    else{
-      return cb(null,result.rows[0]);
+    else {
+      return cb(null, result.rows[0]);
     }
   }
-  catch{
+  catch(err) {
     return cb(err);
   }
 })
