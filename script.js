@@ -68,13 +68,13 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/show", async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   try {
     if (req.isAuthenticated()) {
       const result = await db.query("SELECT * FROM blogData ORDER BY id");
       const data = result.rows;
       maxLength = data.length;
-      const user = true;
+      const user = await db.query("SELECT * FROM users WHERE user_id=$1", [req.user.user_id]);
       res.render("secrets.ejs", { data: data, user: user });
     }
     else {
@@ -179,11 +179,11 @@ app.post("/submit/:id", async (req, res) => {
   res.redirect("/show");
 });
 
-app.post("/submitNew/:id", async (req, res) => {
+app.post("/submitNew", async (req, res) => {
   try {
-    const newData = { title: req.body.title, description: req.body.description, author: req.body.author };
-    const idToUpdate = maxLength + 1;
-    await db.query('INSERT INTO blogData VALUES($1,$2,$3,CURRENT_DATE,$4)', [newData.title, newData.description, newData.author, idToUpdate]);
+    const newData = { title: req.body.title, description: req.body.description, author: req.body.author,user_id:req.user.user_id };
+    console.log(newData.user_id);
+    await db.query('INSERT INTO blogData(title,description,author,crdate,user_id) VALUES($1,$2,$3,CURRENT_DATE,$4)', [newData.title, newData.description, newData.author, newData.user_id]);
     console.log("Row added successfully");
   } catch (err) {
     console.error("Error executing query", err.stack);
@@ -228,7 +228,7 @@ passport.use("google", new GoogleStrategy({
   userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 }, async (accessToken, refreshToken, profile, cb) => {
   try {
-    console.log(profile);
+    // console.log(profile);
     const result = await db.query("SELECT * FROM users WHERE email=$1", [profile.email]);
     if (result.rows.length === 0) {
       const newUser = await db.query("INSERT INTO users(email,password,user_id) VALUES($1,$2,$3)", [profile.email, "google",profile.id]);
