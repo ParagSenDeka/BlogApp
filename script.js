@@ -20,7 +20,7 @@ const port = process.env.PORT || 3000; // Use Vercel's PORT
 const saltRounds = 10;
 let maxLength = 0;
 
-app.set("views", path.join(__dirname, "../views"));
+app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 app.use(
   session({
@@ -31,7 +31,7 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "/public")));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -228,6 +228,3 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
-
-// Export the API function
-export default app;
