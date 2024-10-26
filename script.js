@@ -8,7 +8,6 @@ import env from "dotenv";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import GoogleStrategy from "passport-google-oauth2";
-import session from "express-session";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
 
