@@ -29,10 +29,15 @@ let maxLength = 0;
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
+redisClient.on("connect", () => {
+  console.log("Connected to Redis");
+});
+redisClient.on("error", (err) => {
+  console.error("Redis error:", err);
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/public")));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
@@ -41,6 +46,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 const db = new pg.Client({
   user: process.env.POSTGRES_USER,
