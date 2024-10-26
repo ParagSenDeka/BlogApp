@@ -88,7 +88,7 @@ app.get("/show", async (req, res) => {
     }
   } catch (err) {
     console.error("Error executing query", err.stack);
-    res.status(500).send("Internal Server Error NIGGA");
+    res.status(500).send("Internal Server Error");
   }
 });
 
