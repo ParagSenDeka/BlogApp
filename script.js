@@ -13,6 +13,8 @@ import connectRedis from "connect-redis";
 
 const RedisStore = connectRedis(session); 
 const redisClient = new Redis(); 
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -46,6 +48,7 @@ const db = new pg.Client({
   database: process.env.POSTGRES_DATABASE,
   password: process.env.POSTGRES_PASSWORD,
   connectionString: process.env.POSTGRES_URL,
+  port: process.env.POSTGRES_PORT,
 });
 db.connect();
 
