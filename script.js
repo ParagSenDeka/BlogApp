@@ -8,12 +8,6 @@ import env from "dotenv";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import GoogleStrategy from "passport-google-oauth2";
-import Redis from "ioredis";
-import connectRedis from "connect-redis";
-
-const RedisStore = connectRedis(session); 
-const redisClient = new Redis(); 
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,7 +15,7 @@ const __dirname = dirname(__filename);
 env.config();
 
 const app = express();
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000;
 
 const saltRounds = 10;
 let maxLength = 0;
@@ -29,18 +23,11 @@ let maxLength = 0;
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
-redisClient.on("connect", () => {
-  console.log("Connected to Redis");
-});
-redisClient.on("error", (err) => {
-  console.error("Redis error:", err);
-});
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/public")));
+
 app.use(
   session({
-    store: new RedisStore({ client: redisClient }),
     secret: "TOPSECRETWORD",
     resave: false,
     saveUninitialized: true,
