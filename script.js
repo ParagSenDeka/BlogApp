@@ -42,7 +42,6 @@ const db = new pg.Client({
   database: process.env.POSTGRES_DATABASE,
   password: process.env.POSTGRES_PASSWORD,
   connectionString: process.env.POSTGRES_URL,
-  port: process.env.POSTGRES_PORT,
 });
 db.connect();
 
