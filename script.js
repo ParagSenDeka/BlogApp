@@ -75,7 +75,7 @@ app.get("/show", async (req, res) => {
       const data = result.rows;
       maxLength = data.length;
       const user = await db.query("SELECT * FROM users WHERE user_id=$1", [req.user.user_id]);
-      res.render("secrets.ejs", { data: data, user: user });
+      res.render("secrets.ejs", { data: data, user: user.rows[0].user_id });
     }
     else {
       res.redirect("/");
@@ -104,7 +104,7 @@ app.post("/register", async (req, res) => {
     ]);
 
     if (checkResult.rows.length > 0) {
-      req.redirect("/login");
+      res.redirect("/login");
     } else {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
@@ -114,8 +114,9 @@ app.post("/register", async (req, res) => {
             "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
             [email, hash]
           );
+          console.log(result.rows[0]);
           const user = result.rows[0];
-          req.login(user, (err) => {
+          req.login(user, err => {
             console.log("success");
             res.redirect("/show");
           });
@@ -231,7 +232,7 @@ passport.use("google", new GoogleStrategy({
     // console.log(profile);
     const result = await db.query("SELECT * FROM users WHERE email=$1", [profile.email]);
     if (result.rows.length === 0) {
-      const newUser = await db.query("INSERT INTO users(email,password,user_id) VALUES($1,$2,$3)", [profile.email, "google",profile.id]);
+      const newUser = await db.query("INSERT INTO users(email,password) VALUES($1,$2)", [profile.email, "google"]);
       return cb(null, newUser.rows[0]);
     }
     else {
