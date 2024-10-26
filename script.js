@@ -8,16 +8,21 @@ import env from "dotenv";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import GoogleStrategy from "passport-google-oauth2";
+import express from "express";
+import session from "express-session";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
 
-const RedisStore = connectRedis(session);
-const redisClient = new Redis();
+const RedisStore = connectRedis(session); 
+const redisClient = new Redis(); 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 env.config();
+
 const app = express();
-const port = process.env.PORT || 3000; // Use Vercel's PORT
+const port = process.env.PORT || 3000; 
+
 const saltRounds = 10;
 let maxLength = 0;
 
@@ -273,3 +278,5 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
+
+export default app;
